@@ -5,7 +5,7 @@
             <a style="right: 6px;" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><img src="assets/images/icon_green.png" /></a>
         </div>
         <div class="nk-sidebar-brand">
-            <a href="./index.php" class="logo-link nk-sidebar-logo" style="margin-left: 2em; right: 35px;">
+            <a href="./" class="logo-link nk-sidebar-logo" style="margin-left: 2em; right: 35px;">
                 <img class="logo-light logo-img" src="assets/images/logo-text.png" srcset="assets/images/logo-text.png" alt="logo">
                 <img class="logo-dark logo-img" src="assets/images/logo-text.png"  srcset="assets/images/logo-text.png" alt="logo-dark">
             </a>

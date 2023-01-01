@@ -62,6 +62,8 @@ $router->get('/client/dashboard', function(){
     if(!isset($_COOKIE['token'])) header('Location: ./../login');
     $user = DB->getUserByToken($_COOKIE['token']);
     if($user === false) header('Location: ./../login');
+    $servers = DB->getUserServers($user['user_id']);
+    $tickets = DB->getUserTickets($user['user_id']);
     require_once 'views/client/dashboard.php';
 });
 
@@ -70,6 +72,20 @@ $router->get('/client/order', function(){
     $user = DB->getUserByToken($_COOKIE['token']);
     if($user === false) header('Location: ./../login');
     require_once 'views/client/order.php';
+});
+
+$router->get('/client/profile', function(){
+    if(!isset($_COOKIE['token'])) header('Location: ./../login');
+    $user = DB->getUserByToken($_COOKIE['token']);
+    if($user === false) header('Location: ./../login');
+    require_once 'views/client/profile.php';
+});
+
+$router->get('client/activity', function(){
+    if(!isset($_COOKIE['token'])) header('Location: ./../login');
+    $user = DB->getUserByToken($_COOKIE['token']);
+    if($user === false) header('Location: ./../login');
+    require_once 'views/client/activity.php';
 });
 
 // --------- API ROUTES ---------

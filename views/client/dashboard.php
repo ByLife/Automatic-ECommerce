@@ -104,7 +104,7 @@
                                                                     </div>
                                                                     <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                                                                         <div class="nk-sale-data">
-                                                                            <span class="amount">0 <em class="icon ni ni-server green-light"></em> </span>
+                                                                            <span class="amount"><?= $servers == false ? 0 : count($servers); ?> <em class="icon ni ni-server green-light"></em> </span>
                                                                             <span class="sub-title"><a href="./client/order"><span class="text-success"><em class="icon ni ni-plus"></em> Order a new service</span></a></span>
                                                                         </div>
                                                                     </div>
@@ -124,7 +124,7 @@
                                                                     </div>
                                                                     <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                                                                         <div class="nk-sale-data">
-                                                                            <span class="amount">0<em class="icon ni ni-ticket green-light"></em></span>
+                                                                            <span class="amount"><?= $tickets == false ? 0 : count($tickets);?><em class="icon ni ni-ticket green-light"></em></span>
                                                                             <span class="sub-title"><a href="./client/ticket"><span class="text-success"><em class="icon ni ni-plus"></em> Open a new ticket</span></a></span>
                                                                         </div>
                                                                     </div>
@@ -150,38 +150,40 @@
                                                         <div class="nk-tb-item nk-tb-head">
                                                             <div class="nk-tb-col"><span>Server ID</span></div>
                                                             <div class="nk-tb-col tb-col-sm"><span>Customer</span></div>
-                                                            <div class="nk-tb-col tb-col-md"><span>Disk</span></div>
-                                                            <div class="nk-tb-col tb-col-lg"><span>Ram</span></div>
-                                                            <div class="nk-tb-col"><span>Type</span></div>
-                                                            <div class="nk-tb-col"><span class="d-none d-sm-inline">Status</span></div>
+                                                            <div class="nk-tb-col tb-col-md"><span>Plan</span></div>
+                                                            <div class="nk-tb-col tb-col-lg"><span>Hostname</span></div>
+                                                            <div class="nk-tb-col"><span>Password</span></div>
+                                                            <div class="nk-tb-col"><span class="d-none d-sm-inline">End At</span></div>
                                                         </div>
+                                                        <?php if($servers !== false) foreach($servers as $val){ ?>
                                                         <div class="nk-tb-item">
                                                             <div class="nk-tb-col">
-                                                                <span class="tb-lead"><a href="./client/server/id">#azfzafza</a></span>
+                                                                <span class="tb-lead"><a href="./client/server/id">#<?= $val['server_id'] ?></a></span>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-sm">
                                                                 <div class="user-card">
                                                                     <div class="user-avatar user-avatar-sm bg-purple">
-                                                                        <span>AB</span>
+                                                                        <span>User</span>
                                                                     </div>
                                                                     <div class="user-name">
-                                                                        <span class="tb-lead">Email</span>
+                                                                        <span class="tb-lead"><?= $user['username'] == null ? $user['email'] : $user['username']; ?></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-md">
-                                                                <span class="tb-sub"> GB</span>
+                                                                <span class="tb-sub"><?= $val['plan_name']; ?></span>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-lg">
-                                                                <span class="tb-sub text-primary"> Mo</span>
+                                                                <span class="tb-sub text-primary"> <?= $val['hostname']; ?></span>
                                                             </div>
                                                             <div class="nk-tb-col">
-                                                                <span class="tb-sub tb-amount"><span>eefz</span></span>
+                                                                <span class="tb-sub tb-amount"><span><?= $val['root_password']; ?></span></span>
                                                             </div>
                                                             <div class="nk-tb-col">
-                                                                <span class="badge badge-dot badge-dot-xs bg-success">zfafazfaz</span>
+                                                                <span class="badge badge-dot-xs bg-warning"><?= $val['end_at'] ?></span>
                                                             </div>
                                                         </div><!-- .nk-tb-item -->
+                                                        <?php } ?>
                                                     </div>
                                                 </div>
                                             </div><!-- .card -->
@@ -206,33 +208,35 @@
                                                             <div class="nk-tb-col"><span class="d-none d-sm-inline">Status</span></div>
                                                         </div>
                                                        
+                                                        <?php if($tickets !== false) foreach($tickets as $val){ ?>
                                                         <div class="nk-tb-item">
                                                             <div class="nk-tb-col">
-                                                                <span class="tb-lead"><a href="./client/ticket?ticket_id=zaffafa">#254</a></span>
+                                                                <span class="tb-lead"><a href="./client/ticket/<?= $val["ticket_id"]; ?>">#<?= strtoupper(substr($val["ticket_id"], 0, 3)); ?></a></span>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-sm">
                                                                 <div class="user-card">
                                                                     <div class="user-avatar user-avatar-sm bg-purple">
-                                                                        <span>AB</span>
+                                                                        <span>User</span>
                                                                     </div>
                                                                     <div class="user-name">
-                                                                        <span class="tb-lead">faazfa</span>
+                                                                        <span class="tb-lead"><?= $user['username'] == null ? $user['email'] : $user['username']; ?></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-md">
-                                                                <span class="tb-sub">afzzaffaz</span>
+                                                                <span class="tb-sub"><?= $val['created_at']; ?></span>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-lg">
-                                                                <span class="tb-sub text-primary">zdzdaazd</span>
+                                                                <span class="tb-sub text-primary"><?= strtoupper(substr($val["ticket_id"], 3)); ?></span>
                                                             </div>
                                                             <div class="nk-tb-col">
-                                                                <span class="tb-sub tb-amount"><span>zfaazffaz</span>
+                                                                <span class="tb-sub tb-amount"><span><?=  substr($val['message'], 0, 25); ?></span>
                                                             </div>
                                                             <div class="nk-tb-col">
-                                                                <span class="badge badge-dot badge-dot-xs bg-success">Open</span>
+                                                                <span class="badge badge-dot badge-dot-xs bg-success"><?= $val['status'] == false ? "Open" : "Closed" ?></span>
                                                             </div>
                                                         </div>
+                                                        <?php } ?>
                                                     </div>
                                                 </div>
                                             </div><!-- .card -->

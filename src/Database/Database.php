@@ -79,6 +79,13 @@ class Database {
         }
     }
 
+    public function logUser($user_id){
+        $stmt = $this->db->prepare("INSERT INTO " . $this->config['DB_DATABASE'] . ".users_login_activity (user_id, ip, created_at) VALUES (:user_id, :ip, NOW())");
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':ip', $_SERVER['REMOTE_ADDR']);
+        $stmt->execute();
+    }
+
     public function getUserByEmail($user_email){
         $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users WHERE email = :user_email");
         $stmt->bindParam(':user_email', $user_email);
@@ -120,7 +127,16 @@ class Database {
     }
 
     public function getUserServers($user_id){
-        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".servers WHERE user_id = :user_id");
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_servers WHERE user_id = :user_id");
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+        // Check if user exists in users
+        if($stmt->rowCount() == 0) return false;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getUserTickets($user_id){
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_ticket_created WHERE user_id = :user_id");
         $stmt->bindParam(':user_id', $user_id);
         $stmt->execute();
         // Check if user exists in users

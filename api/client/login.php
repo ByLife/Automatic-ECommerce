@@ -17,6 +17,7 @@ if(isset($post['user_email']) && isset($post['user_password'])){
     $user = DB->getUserByEmail($userModal['user_email']);
     if($user !== false){
         if(password_verify($userModal['user_password'], $user['password'])){
+            DB->logUser($user['user_id']);
             echo json_encode(array("status" => "success", "message" => "Logged in successfully.", "user" => $user));
         }
         else die(json_encode(array("status" => "error", "message" => "Invalid email address or password.")));

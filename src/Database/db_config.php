@@ -15,6 +15,7 @@ $GLOBALS['database_config'] =  [
         address_line2 VARCHAR(100) DEFAULT NULL,
         state VARCHAR(100) DEFAULT NULL,
         country VARCHAR(100) DEFAULT NULL,
+        birthdate VARCHAR(500),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         rank TINYINT NOT NULL DEFAULT 0
     )",
@@ -59,6 +60,7 @@ $GLOBALS['database_config'] =  [
     "CREATE TABLE IF NOT EXISTS DATABASE_NAME.users_ticket (
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
+        user_name VARCHAR(256) NOT NULL,
         message VARCHAR(2048) NOT NULL,
         ticket_id INT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -67,13 +69,16 @@ $GLOBALS['database_config'] =  [
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
         ticket_id INT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        user_mail VARCHAR(100) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        message VARCHAR(192) NOT NULL,
+        status BOOLEAN NOT NULL DEFAULT 0
     )",
     "CREATE TABLE IF NOT EXISTS DATABASE_NAME.users_servers (
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
         server_id INT NOT NULL,
-        plan_id INT NOT NULL,
+        plan_name INT NOT NULL,
         hostname VARCHAR(100) NOT NULL,
         root_password VARCHAR(100) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -134,7 +134,8 @@ getMessages = async (ticket_id, ticket_owner) => {
                             
                         </div>
                     </div>
-                    `
+                    `;
+                    
                     document.querySelector(".cursa-chatbox").insertAdjacentHTML("beforebegin", reply);
                 } else {
                     var reply = `
@@ -155,7 +156,8 @@ getMessages = async (ticket_id, ticket_owner) => {
                             
                         </div>
                     </div>
-                    `
+                    `;
+
                     document.querySelector(".cursa-chatbox").insertAdjacentHTML("beforebegin", reply);
                 }
             })
