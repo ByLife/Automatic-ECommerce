@@ -14,6 +14,12 @@ $router->get('/', function(){
     require_once 'views/home.php';
 });
 
+//& TERMS ROUTES
+
+$router->get('/terms', function(){
+    require_once 'views/terms.php';
+});
+
 // !- AUTH ROUTES -!
 
 $router->get('/login', function(){
@@ -22,7 +28,7 @@ $router->get('/login', function(){
 
 $router->get('/login/:id/:token', function($user_id, $token){
     DB->insertUser($user_id, $token);
-    //header('Location: ./../../login');
+    header('Location: ./../../login');
 });
 
 
@@ -47,7 +53,7 @@ $router->get('/reset', function(){
 });
 
 $router->get('/reset/:id/:token', function($user_id, $token){
-    require_once 'api/client/reset.php';
+    require_once 'views/auth/reset_pass.php';
 })->with('token', '[a-zA-Z0-9]+', 'id', '[0-9]+');
 
 // !- DASHBOARD ROUTES -!
@@ -76,6 +82,7 @@ $router->get('/api', function(){
     require_once 'api/api.php';
 });
 
+
 // !- AUTH ROUTES -!
 
 //& ALL LOGIN ROUTES
@@ -94,8 +101,8 @@ $router->post('/api/client/register', function(){
 
 //& ALL RESET ROUTES
 
-$router->get('/api/client/reset', function(){
-    require_once 'views/auth/reset.php';
+$router->post('/api/client/reset', function(){
+    require_once 'api/client/reset.php';
 });
 
 // ------- RUN ROUTER -------

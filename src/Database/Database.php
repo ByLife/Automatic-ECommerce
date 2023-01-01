@@ -88,6 +88,28 @@ class Database {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getUserReset($id, $token, $new_password){
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_password_reset WHERE user_id = :id AND token_reset = :token");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':token', $token);
+        $stmt->execute();
+
+        // Check if user exists in users
+        if($stmt->rowCount() == 0) return false;
+
+        $stmt = $this->db->prepare("UPDATE " . $this->config['DB_DATABASE'] . ".users SET password = :new_password WHERE user_id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':new_password', password_hash($new_password, PASSWORD_BCRYPT));
+        $stmt->execute();
+
+        // Delete token
+
+        $stmt = $this->db->prepare("DELETE FROM " . $this->config['DB_DATABASE'] . ".users_password_reset WHERE user_id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return true;
+    }
+
     public function getUserByToken($token){
         $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users WHERE token = :token LIMIT 1");
         $stmt->bindParam(':token', $token);
@@ -95,6 +117,41 @@ class Database {
         // Check if user exists in users
         if($stmt->rowCount() == 0) return false;
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getUserServers($user_id){
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".servers WHERE user_id = :user_id");
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+        // Check if user exists in users
+        if($stmt->rowCount() == 0) return false;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function insertUserReset($user_id, $token, $email){
+        try{
+            // Check if user exists in users
+
+            if($this->getUserByEmail($email) == false) return false;
+
+            // Check if too much reset
+
+            $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_password_reset WHERE email = :email");
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+            if($stmt->rowCount() > 2) return false;
+
+            // Insert user
+
+            $stmt = $this->db->prepare("INSERT INTO " . $this->config['DB_DATABASE'] . ".users_password_reset (user_id, token_reset, email, created_at) VALUES (:user_id, :token, :email, NOW())");
+            $stmt->bindParam(':user_id', $user_id);
+            $stmt->bindParam(':token', $token);
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+            return true;
+        } catch(PDOException $e){
+            return false;
+        }
     }
 
     public function insertUser($id, $token){
@@ -106,9 +163,7 @@ class Database {
             $stmt->execute();
 
             // Check if user exists in users_email_verif
-            echo "<h1>Check if user exists in users_email_verif</h1>";
             if($stmt->rowCount() == 0) return false;
-            echo "User exists in users_email_verif";
 
             // Get email and password from users_email_verif 
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -127,6 +182,7 @@ class Database {
             $stmt->bindParam(':user_password', $user_password);
             $stmt->bindParam(':token', bin2hex(random_bytes(16)));
             $stmt->execute();
+            setcookie('verified', true, time() + (86400 * 30), "/");
             return true;
         } catch(PDOException $e){
             return false;
@@ -141,6 +197,10 @@ class Database {
         // Delete all plans that are expired with the current date from the table users_servers
         $stmt = $this->db->prepare("DELETE FROM " . $this->config['DB_DATABASE'] . ".users_servers WHERE end_at < NOW()");
         $stmt->execute();        
+
+        // Delete all users from email reset that are not verified after 24 hours from table users_password_reset
+        $stmt = $this->db->prepare("DELETE FROM " . $this->config['DB_DATABASE'] . ".users_password_reset WHERE created_at < DATE_SUB(NOW(), INTERVAL 1 DAY)");
+        $stmt->execute();
     }
 }
 

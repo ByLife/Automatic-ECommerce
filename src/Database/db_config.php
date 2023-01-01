@@ -38,6 +38,15 @@ $GLOBALS['database_config'] =  [
         token_reset VARCHAR(1048) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )",
+    "CREATE TABLE IF NOT EXISTS DATABASE_NAME.plans (
+        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        ram INT NOT NULL,
+        cpu_core INT NOT NULL,
+        disk_space INT NOT NULL,
+        bandwidth INT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )",
     "CREATE TABLE IF NOT EXISTS DATABASE_NAME.plans_billing (
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(100) NOT NULL,

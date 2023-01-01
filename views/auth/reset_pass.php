@@ -2,6 +2,7 @@
 <html lang="zxx" class="js">
 
 <head>
+    <base href="../../">
     <meta charset="utf-8">
     <meta name="author" content="Softnio">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,27 +38,41 @@
                                 </div>
                                 <div class="nk-block-head">
                                     <div class="nk-block-head-content">
-                                        <h5 class="nk-block-title">Sign-In</h5>
+                                        <h5 class="nk-block-title">Reset your password</h5>
                                         <div class="nk-block-des">
                                             <p>Access the Cursa panel by resetting your password.</p>
                                         </div>
                                         <div class="alert-container"></div>
                                     </div>
                                 </div><!-- .nk-block-head -->
-
-                                    <div class="form-group">
+                                <div class="form-group">
                                         <div class="form-label-group">
-                                            <label class="form-label" for="email-address">Email</label>
+                                            <label class="form-label" for="password">Password</label>
                                         </div>
                                         <div class="form-control-wrap">
-                                            <input autocomplete="email" type="email" class="form-control form-control-lg user-email" name="email" required id="email" placeholder="Enter your email">
+                                            <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
+                                                <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                            </a>
+                                            <input autocomplete="new-password" minlength="6" type="password" name="password" class="form-control form-control-lg user-password" required id="password" placeholder="Enter your password">
+                                        </div>
+                                    </div><!-- .form-group -->
+                                    <div class="form-group">
+                                        <div class="form-label-group">
+                                            <label class="form-label" for="password">Repeat Password</label>
+                                        </div>
+                                        <div class="form-control-wrap">
+                                            <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
+                                                <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                            </a>
+                                            <input autocomplete="new-password" minlength="6" type="password" name="verify_password" class="form-control form-control-lg user-password-confirm" required id="password_repeat" placeholder="Enter your password">
                                         </div>
                                     </div><!-- .form-group -->
 
                                     <div class="form-group">
                                         <button class="btn btn-lg btn-primary btn-block btn-reset" type="submit" name="submit-reset">Reset Password</button>
                                     </div>
-                              
                                 
                                 <div class="form-note-s2 pt-4"> Did you reset your password? <a href="./login">Log-in here</a>
                                 </div>
@@ -67,10 +82,10 @@
                                 <div class="nk-block-between">
                                     <ul class="nav nav-sm">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="./pages/terms_condition.php">Terms & Condition</a>
+                                            <a class="nav-link" href="./terms">Terms & Condition</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="./pages/terms_condition.php">Privacy Policy</a>
+                                            <a class="nav-link" href="./terms">Privacy Policy</a>
                                         </li>
                                     </ul><!-- .nav -->
                                 </div>
@@ -111,7 +126,7 @@
     <script src="./assets/js/bundle.js?ver=3.0.3"></script>
     <script src="./assets/js/scripts.js?ver=3.0.3"></script>
     <script src="./assets/js/modules/cookies.js"></script>
-    <script src="./assets/js/modules/reset.js"></script>
+    <script src="./assets/js/modules/reset_pass.js"></script>
     <!-- select region modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="region">
         <div class="modal-dialog modal-lg" role="document">

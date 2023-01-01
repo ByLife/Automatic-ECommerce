@@ -5,8 +5,8 @@
                 <em class="icon ni ni-user-alt"></em>
             </div>
             <div class="user-info d-none d-md-block">
-                <div class="user-status">RANK</div>
-                <div class="user-name user-cursa-mail dropdown-indicator">EMAIL></div>
+                <div class="user-status"><?= $user['rank'] == 0 ? "Normal User" : "Admin" ?></div>
+                <div class="user-name user-cursa-mail dropdown-indicator"><?= $user['email'] == null ? "Not Set" :  $user['email']; ?></div>
             </div>
         </div>
     </a>
@@ -17,22 +17,22 @@
                     <span>User</span>
                 </div>
                 <div class="user-info">
-                    <span class="lead-text">USERNAME</span>
-                    <span class="sub-text">EMAIL</span>
+                    <span class="lead-text"><?= $user['username'] == null ? "Not Set" :  $user['username']; ?></span>
+                    <span class="sub-text"><?= $user['email'] == null ? "Not Set" :  $user['email']; ?></span>
                 </div>
             </div>
         </div>
         <div class="dropdown-inner">
             <ul class="link-list">
-                <li><a href="./pages/client/user-profile.php"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                <li><a href="./pages/client/user-profile-activity.php"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+                <li><a href="./client/profile"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                <li><a href="./client/activity"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                 <li><a class="dark-switch"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
             </ul>
         </div>
         <div class="dropdown-inner">
-            <form method="POST">
+            <a href="./logout">
                 <button type="submit" name="disconnect" class="btn btn-primary">Sign out ></button>
-            </form>
+            </a>
         </div>
     </div>
 </li><!-- .dropdown -->

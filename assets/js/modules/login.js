@@ -1,4 +1,15 @@
 document.addEventListener("DOMContentLoaded", async () => {
+
+    if(getCookie("verified") == 1) {
+        document.querySelector(".alert-container").innerHTML =`
+        <div class="alert alert-success" role="alert">
+        <strong>Success!</strong> Your account has been verified, you can now login.
+        </div>
+        `;
+
+        setCookie("verified", 0, 1);
+    }
+
     await document.querySelector(".btn-login").addEventListener("click", () => {
 
         fetch("./api/client/login", {

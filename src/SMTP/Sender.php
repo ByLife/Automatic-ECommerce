@@ -66,7 +66,7 @@ class Sender {
     public function sendEmailPasswordReset($email){
         $content = file_get_contents('./src/SMTP/templates/mail_reset.html');
         $content = str_replace('{TOKEN}', $this->token, $content);
-        $content = str_replace('{TOKEN}', $this->user_id, $content);
+        $content = str_replace('{USER_ID}', $this->user_id, $content);
         $content = str_replace('{URL}', $this->path, $content);
         $this->sendEmail($email, 'Cursa', 'Réinitialisation de votre mot de passe', $content);
     }

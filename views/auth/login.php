@@ -62,7 +62,7 @@
                                                 <em class="passcode-icon icon-show icon ni ni-eye"></em>
                                                 <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
                                             </a>
-                                            <input autocomplete="new-password" name="password" type="password" class="form-control form-control-lg user-password" required id="password" placeholder="Enter your password">
+                                            <input autocomplete="new-password" name="password" type="password" class="form-control form-control-lg user-password" required id="password_repeat" placeholder="Enter your password">
                                         </div>
                                     </div><!-- .form-group -->
                                     <div class="form-group">

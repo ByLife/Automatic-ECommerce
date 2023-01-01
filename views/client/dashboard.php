@@ -105,7 +105,7 @@
                                                                     <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                                                                         <div class="nk-sale-data">
                                                                             <span class="amount">0 <em class="icon ni ni-server green-light"></em> </span>
-                                                                            <span class="sub-title"><a href="./pages/client/user-order.php"><span class="text-success"><em class="icon ni ni-plus"></em> Order a new service</span></a></span>
+                                                                            <span class="sub-title"><a href="./client/order"><span class="text-success"><em class="icon ni ni-plus"></em> Order a new service</span></a></span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -125,7 +125,7 @@
                                                                     <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                                                                         <div class="nk-sale-data">
                                                                             <span class="amount">0<em class="icon ni ni-ticket green-light"></em></span>
-                                                                            <span class="sub-title"><a href="./pages/client/user-ticket.php"><span class="text-success"><em class="icon ni ni-plus"></em> Open a new ticket</span></a></span>
+                                                                            <span class="sub-title"><a href="./client/ticket"><span class="text-success"><em class="icon ni ni-plus"></em> Open a new ticket</span></a></span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -157,7 +157,7 @@
                                                         </div>
                                                         <div class="nk-tb-item">
                                                             <div class="nk-tb-col">
-                                                                <span class="tb-lead"><a href="./pages/client/user-pannel.php?vid=54564">#azfzafza</a></span>
+                                                                <span class="tb-lead"><a href="./client/server/id">#azfzafza</a></span>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-sm">
                                                                 <div class="user-card">
@@ -208,7 +208,7 @@
                                                        
                                                         <div class="nk-tb-item">
                                                             <div class="nk-tb-col">
-                                                                <span class="tb-lead"><a href="./pages/client/user-ticket.php?ticket_id=zaffafa">#254</a></span>
+                                                                <span class="tb-lead"><a href="./client/ticket?ticket_id=zaffafa">#254</a></span>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-sm">
                                                                 <div class="user-card">
