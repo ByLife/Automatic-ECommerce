@@ -1,0 +1,18 @@
+{
+    "name": "project/app",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Project\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ByLife",
+            "email": "bylife@bylife.fr"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.7"
+    }
+}
