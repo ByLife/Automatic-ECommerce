@@ -21,7 +21,7 @@
         <!-- main @s -->
         <div class="nk-main ">
             <!-- sidebar @s -->
-            <?php include_once "../body/nav/nav-menu.php"; ?>
+            <?php include_once "./views/body/nav/nav-menu.php"; ?>
             <!-- sidebar @e -->
             <!-- wrap @s -->
             <div class="nk-wrap ">
@@ -42,7 +42,6 @@
                             <div class="nk-header-news d-none d-xl-block">
                                 <div class="nk-news-list">
                                     <div class="nk-news-text">
-                                        <?php include_once "../body/nav/nav-header-message.php"; ?>
                                         <em class="icon ni ni-external"></em>
                                     </div>
                                 </div>
@@ -50,7 +49,7 @@
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">
                                     <!-- .dropdown -->
-                                    <?php include_once "../body/nav/nav-dropdown.php"; ?>
+                                    <?php include_once "./views/body/nav/nav-dropdown.php"; ?>
                                     <!-- .dropdown -->
                                 </ul><!-- .nk-quick-nav -->
                             </div><!-- .nk-header-tools -->

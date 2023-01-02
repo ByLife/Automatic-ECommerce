@@ -20,13 +20,13 @@
                         <h6 class="overline-title text-primary-alt">Administration</h6>
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item">
-                        <a href="./pages/admin/admin-users.php" class="nk-menu-link">
+                        <a href="./admin/users" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-user-list"></em></span>
                             <span class="nk-menu-text">Users</span>
                         </a>
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item">
-                        <a href="./pages/admin/admin-services.php" class="nk-menu-link">
+                        <a href="./admin/services" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-server"></em></span>
                             <span class="nk-menu-text">Services</span>
                         </a>
@@ -56,7 +56,7 @@
                         <ul class="nk-menu-sub">
 
                             <li class="nk-menu-item">
-                                <a href="./pages/client/server/id" class="nk-menu-link"><span class="nk-menu-text">Server #zfazfafz</span></a>
+                                <a href="./client/server/id" class="nk-menu-link"><span class="nk-menu-text">Server #zfazfafz</span></a>
                             </li>
                         </ul><!-- .nk-menu-sub -->
                     </li><!-- .nk-menu-item -->

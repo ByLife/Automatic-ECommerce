@@ -88,6 +88,7 @@
                                                     </div>
                                                 </div>
                                             </div><!-- .nk-block-head -->
+                                        <?php if($plans !== false) foreach($plans as $val){ ?>
                                         <div class="col-md-6 col-xxl-3">
                                             <div class="card card-bordered pricing text-center">
                                                 <div class="pricing-body">
@@ -106,54 +107,69 @@
                                                     </div>
                                                     <div class="pricing-action">
                                                         <!-- Modal Trigger Code -->
-                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCLE">Select Plan</button>
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1">Select Plan</button>
                                                         
                                                         <!-- Modal Content Code -->
-                                                        <div class="modal fade" tabindex="-1" id="modalCLE">
-                                                            <div class="modal-dialog modal-lg" role="document">
+                                                        <div class="modal fade" tabindex="-1" id="modal1">
+                                                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                                 <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">VALUE Plan</h5>
-                                                                        <a class="close" data-bs-dismiss="modal" aria-label="Close">
-                                                                            <em class="icon ni ni-cross"></em>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="modal-body" style="text-align: left;">
-                                                                        <p>Choose a billing cycle.</p>
-                                                                        <!-- With Footer Header -->
-                                                                        <div class="row g-gs">
-                                                                                <div class="col-lg-4">
-                                                                                    <div class="card card-bordered">    
-                                                                                        <div class="card-body">        
-                                                                                            <div class="custom-control custom-radio">
-                                                                                                <input type="radio" id="customRadio5464" name="VALUE" required value="JSPCQUOI" class="custom-control-input">
-                                                                                                <label class="custom-control-label" for="customRadioCLE">
-                                                                                                    <h5 class="card-title">TITRE</h5>        
-                                                                                                    <p class="card-text">TEXT</p>
-                                                                                                    <p class="card-text">PRIX 69€</p>
-                                                                                                    <br>
-                                                                                                </label>
-                                                                                            </div>                                                                                                    
-                                                                                        </div>    
+                                                                    <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                                                                    <div class="modal-body modal-body-lg">
+                                                                        <h5 class="title">Payment Protocole</h5>
+                                                                        <ul class="nk-nav nav nav-tabs">
+                                                                            <li class="nav-item">
+                                                                                <a class="nav-link active" data-bs-toggle="tab" href="#personal">Payment</a>
+                                                                            </li>
+                                                                        </ul><!-- .nav-tabs -->
+                                                                        <div class="tab-content">
+                                                                            <div class="tab-pane active" id="personal">
+                                                                                <div class="row gy-4">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group">
+                                                                                            <label class="form-label" for="full-name">Full Name</label>
+                                                                                            <input type="text"  name="fullname" class="form-control form-control-lg" id="full-name" value="<?= $user['fullname']; ?>" placeholder="Enter Full name">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group">
+                                                                                            <label class="form-label" for="display-name">Card Number</label>
+                                                                                            <input type="text" name="displayname" class="form-control form-control-lg cr_no" id="display-name" placeholder="0000 0000 0000 0000" size="18" minlength="18" maxlength="18">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group">
+                                                                                            <label class="form-label" for="phone-no">CVV/CVC</label>
+                                                                                            <input type="text" name="number" class="form-control form-control-lg" id="phone-no" placeholder="000" minlength="3" maxlength="3">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group">
+                                                                                            <label class="form-label" for="birth-day">Expiry Date</label>
+                                                                                            <input type="text" name="birthdate" placeholder="MM/YY" class="form-control form-control-lg exp" id="birth-day" placeholder="Enter your birth date" minlength="5" maxlength="5">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-12">
+                                                                                        <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                                                                                            <li>
+                                                                                                <button type="submit" name="update_profile" class="btn btn-lg btn-primary btn-order" data-bs-toggle="tab" href="#personal">Confirm Payment</a>
+                                                                                            </li>
+                                                                                            <li>
+                                                                                                <a href="#" data-bs-dismiss="modal" class="link link-light">Cancel</a>
+                                                                                            </li>
+                                                                                        </ul>
                                                                                     </div>
                                                                                 </div>
-                                                                                <button id="payButton" name="plan" value="VALEUR" class="btn btn-primary col-lg-2" style="text-align: center !important; display: flex; margin-left: 45%; max-width: 100%;">
-                                                                                    <div class="spinner hidden" id="spinner"></div>
-                                                                                    <span id="buttonText">Pay Now ></span>
-                                                                                </button>
-                                                                                <div id="paymentResponse" class="hidden"></div>                                                                
-                                                                        </div>   
-                                                                    </div>
-                                                                    <div class="modal-footer bg-light">
-                                                                        <span class="sub-text">&copy; Cursa</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                                            </div><!-- .tab-pane -->
+                                                                        </div><!-- .tab-content -->
+                                                                    </div><!-- .modal-body -->
+                                                                </div><!-- .modal-content -->
+                                                            </div><!-- .modal-dialog -->
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div><!-- .pricing -->
                                         </div><!-- .col -->
+                                        <?php } ?>
                                     </div>
                                 </div><!-- .nk-block -->
                             </div>
@@ -181,6 +197,8 @@
     <!-- JavaScript -->
     <script src="./assets/js/bundle.js?ver=3.0.3"></script>
     <script src="./assets/js/scripts.js?ver=3.0.3"></script>
+    <script src="./assets/js/card.js"></script>
+    <script src="./assets/js/modules/order.js"></script>
 </body>
 
 </html>

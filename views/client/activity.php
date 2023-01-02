@@ -95,17 +95,13 @@
                                                         <tbody>
                                                             <?php 
                                                             
-                                                            if(isset($_SESSION['email'])){
-                                                                $data = get_activity($_SESSION['email']);
-                                                                while($row = $data->fetch()){
+                                                                if($logs !== false) foreach($logs as $row) {
                                                                     echo "<tr>";
                                                                     echo "<td class='tb-col-os'>New Connection</td>";
                                                                     echo "<td class='tb-col-ip'><span class='sub-text'>{$row['ip']}</span></td>";
                                                                     echo "<td class='tb-col-time'><span class='sub-text'>{$row['created_at']}</span></td>";
                                                                     echo "</tr>";
                                                                 }
-                                                            }
-                                    
                                                             ?>
                                                         </tbody>
                                                     </table>

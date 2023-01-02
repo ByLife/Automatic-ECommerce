@@ -70,6 +70,7 @@ $router->get('/client/dashboard', function(){
 $router->get('/client/order', function(){
     if(!isset($_COOKIE['token'])) header('Location: ./../login');
     $user = DB->getUserByToken($_COOKIE['token']);
+    $plans = DB->getPlans();
     if($user === false) header('Location: ./../login');
     require_once 'views/client/order.php';
 });
@@ -85,7 +86,38 @@ $router->get('client/activity', function(){
     if(!isset($_COOKIE['token'])) header('Location: ./../login');
     $user = DB->getUserByToken($_COOKIE['token']);
     if($user === false) header('Location: ./../login');
+    $logs = DB->getUserLogs($user['user_id']);
     require_once 'views/client/activity.php';
+});
+
+$router->get('client/server/:id', function($id){
+    if(!isset($_COOKIE['token'])) header('Location: ./../login');
+    $user = DB->getUserByToken($_COOKIE['token']);
+    if($user === false) header('Location: ./../login');
+    require_once 'views/client/pannel.php';
+});
+
+// !- ADMIN ROUTES -!
+
+$router->get('admin/users', function(){
+    if(!isset($_COOKIE['token'])) header('Location: ./../login');
+    $user = DB->getUserByToken($_COOKIE['token']);
+    if($user === false) header('Location: ./../login');
+    if($user['rank'] == 0) header('Location: ./../login');
+    $tickets = DB->getAllTickets();
+    $servers = DB->getAllServers();
+    $users = DB->getAllUsers();
+    require_once 'views/admin/users.php';
+});
+
+$router->get('admin/services', function(){
+    if(!isset($_COOKIE['token'])) header('Location: ./../login');
+    $user = DB->getUserByToken($_COOKIE['token']);
+    if($user === false) header('Location: ./../login');
+    if($user['rank'] == 0) header('Location: ./../login');
+    $tickets = DB->getAllTickets();
+    $servers = DB->getAllServers();
+    require_once 'views/admin/services.php';
 });
 
 // --------- API ROUTES ---------
@@ -119,6 +151,16 @@ $router->post('/api/client/register', function(){
 
 $router->post('/api/client/reset', function(){
     require_once 'api/client/reset.php';
+});
+
+//& ALL ADMIN ROUTES
+
+$router->post('/api/admin/services', function(){
+    require_once 'api/admin/services.php';
+});
+
+$router->post('/api/admin/users', function(){
+    require_once 'api/admin/users.php';
 });
 
 // ------- RUN ROUTER -------

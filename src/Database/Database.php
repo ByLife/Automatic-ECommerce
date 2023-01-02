@@ -16,6 +16,7 @@ class Database {
         $this->getPDO($config);
 
         $this->generate();
+        $this->forceInsertUser($config['ADMIN_DEFAULT_EMAIL'], $config['ADMIN_DEFAULT_PASSWORD']);
     }
 
     private function getPDO($config){
@@ -144,6 +145,39 @@ class Database {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getUserLogs($user_id){
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_login_activity WHERE user_id = :user_id ORDER BY created_at DESC LIMIT 15");
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+        // Check if user exists in users
+        if($stmt->rowCount() == 0) return false;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllTickets(){
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_ticket_created ORDER BY created_at DESC");
+        $stmt->execute();
+        // Check if user exists in users
+        if($stmt->rowCount() == 0) return false;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllServers(){
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_servers ORDER BY created_at DESC");
+        $stmt->execute();
+        // Check if user exists in users
+        if($stmt->rowCount() == 0) return false;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllUsers(){
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users ORDER BY created_at DESC");
+        $stmt->execute();
+        // Check if user exists in users
+        if($stmt->rowCount() == 0) return false;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function insertUserReset($user_id, $token, $email){
         try{
             // Check if user exists in users
@@ -200,6 +234,86 @@ class Database {
             $stmt->execute();
             setcookie('verified', true, time() + (86400 * 30), "/");
             return true;
+        } catch(PDOException $e){
+            return false;
+        }
+    }
+
+    public function forceInsertUser($email, $password){
+        try{
+            // Check if user exists in users
+            if($this->getUserByEmail($email) != false) return false;
+
+            // Insert into users
+            $stmt = $this->db->prepare("INSERT INTO " . $this->config['DB_DATABASE'] . ".users (user_id, email, token, password, created_at) VALUES (:user_id, :user_email, :token, :user_password, NOW())");
+            $stmt->bindParam(':user_id', rand(1500, strtotime(date('YmdHis'))));
+            $stmt->bindParam(':user_email', $email);
+            $stmt->bindParam(':user_password', password_hash($password, PASSWORD_BCRYPT));
+            $stmt->bindParam(':token', bin2hex(random_bytes(16)));
+            $stmt->execute();
+
+            // Update rank to 1
+            $stmt = $this->db->prepare("UPDATE " . $this->config['DB_DATABASE'] . ".users SET rank = 1 WHERE email = :user_email");
+            $stmt->bindParam(':user_email', $email);
+            $stmt->execute();
+
+            return true;
+        } catch(PDOException $e){
+            return false;
+        }
+    }
+
+    public function deleteUser($user_id){
+        try {
+            $stmt = $this->db->prepare("DELETE FROM " . $this->config['DB_DATABASE'] . ".users WHERE user_id = :user_id");
+            $stmt->bindParam(':user_id', $user_id);
+            $stmt->execute();
+            return true;
+        } catch(PDOException $e){
+            return false;
+        }
+    }
+
+    public function deleteServer($server_id){
+        try {
+            $stmt = $this->db->prepare("DELETE FROM " . $this->config['DB_DATABASE'] . ".users_servers WHERE server_id = :server_id");
+            $stmt->bindParam(':server_id', $server_id);
+            $stmt->execute();
+            return true;
+        } catch(PDOException $e){
+            return false;
+        }
+    }
+    // id	name	price	description	created_at	
+    // id	name	ram	cpu_core	disk_space	bandwidth	created_at	
+
+    public function createPlan($name, $price, $ram, $cpu, $disk, $bandwith, $description){
+        try {
+            $stmt = $this->db->prepare("INSERT INTO " . $this->config['DB_DATABASE'] . ".plans (name, ram, cpu_core, disk_space, bandwidth ,created_at) VALUES (:name, :ram, :cpu, :disk, :band ,NOW())");
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':ram', $ram);
+            $stmt->bindParam(':cpu', $cpu);
+            $stmt->bindParam(':disk', $disk);
+            $stmt->bindParam(':band', $bandwith);
+            $stmt->execute();
+
+            $stmt = $this->db->prepare("INSERT INTO " . $this->config['DB_DATABASE'] . ".plans_billing (name, price, description, created_at) VALUES (:name, :price, :description, NOW())");
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':price', $price);
+            $stmt->bindParam(':description', $description);
+            $stmt->execute();
+            return true;
+        } catch(PDOException $e){
+            return false;
+        }
+    }
+
+    public function getPlans(){
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".plans INNER JOIN " . $this->config['DB_DATABASE'] . ".plans_billing ON plans.name = plans_billing.name");
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
         } catch(PDOException $e){
             return false;
         }
