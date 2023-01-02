@@ -33,7 +33,10 @@ Main = async () => {
             }).then(response => {
                 response.json().then(data => {
                     if (data.status == "success") {
-                        document.querySelector(".textarea-cursa-ticket-subject").placeholder = "Ticket created";
+                        document.querySelector(".textarea-cursa-ticket-subject").placeholder = "Ticket created, redirect...";
+                        setTimeout(() => {
+                            window.location.href = "./client/ticket/" + data.ticket_id;
+                        }, 2000);
                     } else {
                         document.querySelector(".textarea-cursa-ticket-subject").placeholder = "Error: " + data.message;
                     }

@@ -36,6 +36,15 @@ class Database {
         return $this->db;
     }
 
+    public function updateUserAddress($user_mail, $address_line1 = "undefined", $address_line2 = "undefined", $country = "undefined"){
+        $stmt = $this->db->prepare("UPDATE " . $this->config['DB_DATABASE'] . ".users SET address_line1 = :address_line1, address_line2 = :address_line2, country = :country WHERE email = :user_mail");
+        $stmt->bindParam(':user_mail', $user_mail);
+        $stmt->bindParam(':address_line1', $address_line1);
+        $stmt->bindParam(':address_line2', $address_line2);
+        $stmt->bindParam(':country', $country);
+        $stmt->execute();
+    }
+
     private function generate(){
         foreach($this->db_config as $table => $fields){
             $this->db->exec(str_replace('DATABASE_NAME', $this->config['DB_DATABASE'], $fields));
@@ -147,7 +156,7 @@ class Database {
     }
 
     public function getUserTickets($user_id){
-        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_ticket_created WHERE user_id = :user_id");
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_ticket_created WHERE user_id = :user_id AND status = 0 ORDER BY created_at DESC");
         $stmt->bindParam(':user_id', $user_id);
         $stmt->execute();
         // Check if user exists in users
@@ -155,8 +164,19 @@ class Database {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function closeTicket($ticket_id){
+        try{
+            $stmt = $this->db->prepare("UPDATE " . $this->config['DB_DATABASE'] . ".users_ticket_created SET status = 1 WHERE ticket_id = :ticket_id");
+            $stmt->bindParam(':ticket_id', $ticket_id);
+            $stmt->execute();
+            return true;
+        } catch(PDOException $e){
+            return false;
+        }
+    }
+
     public function countTicket($user_id){
-        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_ticket_created WHERE user_id = :user_id");
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_ticket_created WHERE user_id = :user_id AND status = 0");
         $stmt->bindParam(':user_id', $user_id);
         $stmt->execute();
         // Check if user exists in users
@@ -174,6 +194,39 @@ class Database {
         $stmt->bindParam(':message', $message);
         $stmt->execute();
         return [true, $ticket_id];
+    }
+
+    // $user['email'], $data->ticket_id, $data->message
+    public function sendTicketMessage($user_id, $email, $ticket_id, $message){
+        try {
+            $stmt = $this->db->prepare("INSERT INTO " . $this->config['DB_DATABASE'] . ".users_ticket (user_id, ticket_id, user_name, message, created_at) VALUES (:user_id, :ticket_id, :user_email, :message, NOW())");
+            $stmt->bindParam(':user_id', $user_id);
+            $stmt->bindParam(':user_email', $email);
+            $stmt->bindParam(':ticket_id', $ticket_id);
+            $stmt->bindParam(':message', $message);
+            $stmt->execute();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function getTicketOwner($ticket_id){
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_ticket_created WHERE ticket_id = :ticket_id");
+        $stmt->bindParam(':ticket_id', $ticket_id);
+        $stmt->execute();
+        // Check if user exists in users
+        if($stmt->rowCount() == 0) return false;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getTicketMessages($ticket_id){
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_ticket WHERE ticket_id = :ticket_id");
+        $stmt->bindParam(':ticket_id', $ticket_id);
+        // Check if user exists in users
+        $stmt->execute();
+        if($stmt->rowCount() == 0) return false;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getAllUsersTickets(){

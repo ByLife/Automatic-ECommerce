@@ -73,11 +73,11 @@
                             <li class="nk-menu-item">
                                 <a href="./client/ticket" class="nk-menu-link"><span class="nk-menu-text">Open a new ticket</span></a>
                             </li>
-                            <?php if($tickets !== false) foreach($tickets as $val){ ?>
+                            <?php if($tickets !== false) foreach($tickets as $val){ if($val['status'] == 0) {?>
                             <li class="nk-menu-item">
                                 <a href="./client/ticket/<?= $val['ticket_id']; ?>" class="nk-menu-link"><span class="nk-menu-text">Ticket #<?= $val['ticket_id']; ?></span></a>
                             </li>
-                            <?php } ?>
+                            <?php }}?>
                         </ul><!-- .nk-menu-sub -->
                     </li>
 

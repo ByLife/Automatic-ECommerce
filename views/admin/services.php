@@ -135,7 +135,7 @@
                                             </div><!-- .row -->
                                         </div><!-- .col -->
                                         <p></p>
-                                        <div class="col-md-8 col-xxl-6">
+                                        <div class="col-md-8 col-xxl-12">
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1">Create Plan</button>
 
                                                         <div class="modal fade" tabindex="-1" id="modal1">

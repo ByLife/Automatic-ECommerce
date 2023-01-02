@@ -34,7 +34,7 @@ if(defined('DB')){
                 case "send_message":
                     if(isset($data->ticket_id, $data->message)){
                         if(strlen($data->message > 5)){
-                            if(ticket_send_message($user['email'], $data->ticket_id, $data->message)){
+                            if(DB->sendTicketMessage($user['user_id'], $user['email'], $data->ticket_id, $data->message)){
                                 echo json_encode(array("status" => "success", "message" => "Message sent"));
                             } else{
                                 echo json_encode(array("status" => "error", "message" => "Ticket closed, not found or not sent properly"));
@@ -49,9 +49,9 @@ if(defined('DB')){
                 case 'get_messages':
                     if(isset($data->ticket_id)){
                         $data->ticket_id = htmlspecialchars($data->ticket_id);
-                        $messages = json_encode(ticket_get_messages($data->ticket_id)->fetchAll());
-                        if($messages){
-                            echo json_encode(array("status" => "success", "messages" => $messages));
+                        $messages = DB->getTicketMessages($data->ticket_id);
+                        if($messages !== false){
+                            echo json_encode(array("status" => "success", "messages" => json_encode($messages)));
                         } else{
                             echo json_encode(array("status" => "error", "message" => "Error when getting messages"));
                         }
@@ -61,8 +61,8 @@ if(defined('DB')){
                 case 'get_owner':
                     if(isset($data->ticket_id)){
                         $data->ticket_id = htmlspecialchars($data->ticket_id);
-                        $owner = ticket_get_owner($data->ticket_id);
-                        if($owner){
+                        $owner = DB->getTicketOwner($data->ticket_id);
+                        if($owner !== false){
                             echo json_encode(array("status" => "success", "owner" => json_encode($owner)));
                         } else{
                             echo json_encode(array("status" => "error", "message" => "Error when getting owner"));
@@ -73,7 +73,7 @@ if(defined('DB')){
                 case 'close_ticket':
                     if(isset($data->ticket_id)){
                         $data->ticket_id = htmlspecialchars($data->ticket_id);
-                        if(ticket_close($data->ticket_id)){
+                        if(DB->closeTicket($data->ticket_id)){
                             echo json_encode(array("status" => "success", "message" => "Ticket closed"));
                         } else{
                             echo json_encode(array("status" => "error", "message" => "Error when closing ticket"));

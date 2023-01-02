@@ -14,8 +14,8 @@ $config=array(
 
     'SMTP_HOST'=>'smtp.gmail.com', // SMTP Host
     'SMTP_PORT'=>587, // SMTP Port
-    'SMTP_USERNAME'=>'otp-toktokfood@toktok.ph', // SMTP Email
-    'SMTP_PASSWORD'=>'qg5U!a,5', // SMTP Password
+    'SMTP_USERNAME'=>'wataweirdboy@gmail.com', // SMTP Email
+    'SMTP_PASSWORD'=>'cdkiepudtoeprrwu', // SMTP Password
 
     'URL'=>'http://localhost/projet-sql/', // URL of your website
 

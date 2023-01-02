@@ -164,9 +164,9 @@
                                         <div class="nk-msg-profile" data-simplebar="init"><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: 0px; bottom: 0px;"><div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: 100%; overflow: hidden;"><div class="simplebar-content" style="padding: 0px;">
                                         </div></div></div></div><div class="simplebar-placeholder" style="width: auto; height: 718px;"></div></div><div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; display: none;"></div></div><div class="simplebar-track simplebar-vertical" style="visibility: hidden;"><div class="simplebar-scrollbar" style="height: 0px; display: none;"></div></div></div><!-- .nk-msg-profile -->
                                         </div>
-                                        <span style="display: none;" class="ticket_id"><?php echo htmlentities($_GET["ticket_id"]); ?></span>
+                                        <span style="display: none;" class="ticket_id"><?= $id ?></span>
                                         <script src="./assets/js/modules/cookies.js"></script>
-                                        <script src="./assets/js/modules/ticket_chat.js"></script>
+                                        <script src="./assets/js/modules/chat.js"></script>
                                     <?php } ?>
                                 </div>
                             </div>

@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="zxx" class="js">
 
@@ -180,7 +182,7 @@
                     </ul><!-- .nav-tabs -->
                     <div class="tab-content">
                         <div class="tab-pane active" id="personal">
-                                <form method="POST">
+                                <form method="GET">
                                     <div class="row gy-4">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -220,7 +222,7 @@
                                 </form>
                         </div><!-- .tab-pane -->
                         <div class="tab-pane" id="address">
-                                <form method="POST" class="row gy-4">
+                                <form method="GET" class="row gy-4">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label" for="address-l1">Address Line 1</label>
@@ -250,6 +252,15 @@
                                         </ul>
                                     </div>
                                 </form>
+
+                                <?php 
+                                
+                                if(isset($_GET['update_address'])){
+                                    DB->updateUserAddress($user['id'], $_GET['address1'], $_GET['address2'], $_GET['country']);
+                                    var_dump($_GET);
+                                }
+
+                                ?>
                         </div><!-- .tab-pane -->
                     </div><!-- .tab-content -->
                 </div><!-- .modal-body -->

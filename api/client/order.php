@@ -7,7 +7,7 @@ if(!isset($post['type'])) die(json_encode(array("status" => "error", "message" =
 
 $user = DB->getUserByToken($post['token']);
 
-if($user === false) die(json_encode(array("status" => "error", "message" => "Invalid request. 1")));
+if($user === false) die(json_encode(array("status" => "error", "message" => "Invalid request.")));
 
 switch($post['type']){
     case "place":
