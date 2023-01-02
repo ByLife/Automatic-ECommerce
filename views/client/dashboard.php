@@ -46,7 +46,7 @@
                                             <em class="icon ni ni-card-view"></em>
                                         </div>
                                         <div class="nk-news-text">
-                                           
+                                            Thanks for all our customers for our first 1K customers !
                                             <em class="icon ni ni-external"></em>
                                         </div>
                                     </a>
@@ -158,7 +158,7 @@
                                                         <?php if($servers !== false) foreach($servers as $val){ ?>
                                                         <div class="nk-tb-item">
                                                             <div class="nk-tb-col">
-                                                                <span class="tb-lead"><a href="./client/server/id">#<?= $val['server_id'] ?></a></span>
+                                                                <span class="tb-lead"><a href="./client/server/<?= $val['server_id'] ?>">#<?= $val['server_id'] ?></a></span>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-sm">
                                                                 <div class="user-card">

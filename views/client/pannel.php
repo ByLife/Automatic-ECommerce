@@ -98,7 +98,7 @@
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label">IPv4</span>
-                                                                    <span class="profile-ud-value">VALEUR</span>
+                                                                    <span class="profile-ud-value"><?= long2ip(mt_rand()+mt_rand()+mt_rand(0,1)); ?></span>
                                                                 </div>
                                                             </div>
                                                             <div class="profile-ud-item">
@@ -110,13 +110,13 @@
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label">Hostname</span>
-                                                                    <span class="profile-ud-value">HOSTNAME</span>
+                                                                    <span class="profile-ud-value"><?= $server['hostname']; ?></span>
                                                                 </div>
                                                             </div>
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label">Root Pass</span>
-                                                                    <span class="profile-ud-value">PASS ROOT</span>
+                                                                    <span class="profile-ud-value"><?= $server['root_password']; ?></span>
                                                                 </div>
                                                             </div>
                                                             <div class="profile-ud-item">
@@ -128,7 +128,7 @@
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label">End At</span>
-                                                                    <span class="profile-ud-value">END AT</span>
+                                                                    <span class="profile-ud-value"><?= $server['end_at']; ?></span>
                                                                 </div>
                                                             </div>
                                                         </div><!-- .profile-ud-list -->
@@ -141,25 +141,25 @@
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label">CPU Usage</span>
-                                                                    <span class="profile-ud-value">CPU% of 5vCPUs</span>
+                                                                    <span class="profile-ud-value"><?= random_int(1,2) ?>% of 5vCPUs</span>
                                                                 </div>
                                                             </div>
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label">Memory Usage</span>
-                                                                    <span class="profile-ud-value">5.8% (29 MB / 512 MB)</span>
+                                                                    <span class="profile-ud-value">N/A</span>
                                                                 </div>
                                                             </div>
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label">Disk Size</span>
-                                                                    <span class="profile-ud-value">10G</span>
+                                                                    <span class="profile-ud-value"><?= $plan['disk_space']; ?>Mo</span>
                                                                 </div>
                                                             </div>
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label">Network Usage</span>
-                                                                    <span class="profile-ud-value">500 Mb/s</span>
+                                                                    <span class="profile-ud-value"><?= random_int(1,$plan['bandwidth']); ?> Mb/s</span>
                                                                 </div>
                                                             </div>
                                                         </div><!-- .profile-ud-list -->
@@ -172,7 +172,7 @@
                                                             <div class="profile-ud-item">
                                                                 <div class="profile-ud wider">
                                                                     <span class="profile-ud-label">Server UUID</span>
-                                                                    <span class="profile-ud-value">UUID</span>
+                                                                    <span class="profile-ud-value"><?= $server['id']; ?></span>
                                                                 </div>
                                                             </div>
                                                             <div class="profile-ud-item">
@@ -216,8 +216,8 @@
                                                                 <div class="badge bg-outline-light rounded-pill ucap green-light border-green-light">RDP</div>
                                                                 <div class="badge bg-outline-light rounded-pill ucap">LXC</div>
                                                                 <div class="badge bg-outline-light rounded-pill ucap green-light border-green-light">RUNNING</div>
-                                                                <h5>name</h5>
-                                                                <span class="sub-text">username</span>
+                                                                <h5><?= $plan['name']; ?></h5>
+                                                                <span class="sub-text"><?= $user['email']; ?></span>
                                                             </div>
                                                         </div>
                                                     </div><!-- .card-inner -->
@@ -235,25 +235,25 @@
                                                         <div class="row text-center">
                                                             <div class="col-2">
                                                                 <div class="profile-stats">
-                                                                    <span class="amount">5</span>
+                                                                    <span class="amount"><?= $plan['cpu_core']; ?></span>
                                                                     <span class="sub-text">vCPU</span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-4">
                                                                 <div class="profile-stats">
-                                                                    <span class="amount">105</span>
+                                                                    <span class="amount"><?= $plan['ram']; ?></span>
                                                                     <span class="sub-text">MB RAM</span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-3">
                                                                 <div class="profile-stats">
-                                                                    <span class="amount">10G</span>
+                                                                    <span class="amount"><?= $plan['disk_space']; ?> MB</span>
                                                                     <span class="sub-text">Disk Space</span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-3">
                                                                 <div class="profile-stats">
-                                                                    <span class="amount">1 Gb/s</span>
+                                                                    <span class="amount"><?= $plan['bandwidth']; ?> Gb/s</span>
                                                                     <span class="sub-text">Bandwith</span>
                                                                 </div>
                                                             </div>
@@ -264,15 +264,15 @@
                                                         <div class="row g-3">
                                                             <div class="col-6">
                                                                 <span class="sub-text">Server-ID:</span>
-                                                                <span class="lead-text text-success">#565 ?></span>
+                                                                <span class="lead-text text-success">#<?= $plan['id']; ?></span>
                                                             </div>
                                                             <div class="col-6">
                                                                 <span class="sub-text">Creation Date:</span>
-                                                                <span>DATE PM</span>
+                                                                <span><?= $plan['created_at']; ?></span>
                                                             </div>
                                                             <div class="col-6">
                                                                 <span class="sub-text">User UID:</span>
-                                                                <span class="lead-text text-success">#UID</span>
+                                                                <span class="lead-text text-success">#<?= $user['user_id']; ?></span>
                                                             </div>
                                                             <div class="col-6">
                                                                 <span class="sub-text">Delivered By:</span>

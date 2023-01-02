@@ -87,6 +87,16 @@ class Database {
         $stmt->execute();
     }
 
+    public function generateRandomString($max){
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $max; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
     public function getUserByEmail($user_email){
         $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users WHERE email = :user_email");
         $stmt->bindParam(':user_email', $user_email);
@@ -139,6 +149,35 @@ class Database {
     public function getUserTickets($user_id){
         $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_ticket_created WHERE user_id = :user_id");
         $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+        // Check if user exists in users
+        if($stmt->rowCount() == 0) return false;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countTicket($user_id){
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_ticket_created WHERE user_id = :user_id");
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+        // Check if user exists in users
+        return $stmt->rowCount();
+    }
+
+    public function createTicket($user_id, $user_email, $message){
+        if($this->countTicket($user_id) > 3) return [false, null];
+        
+        $stmt = $this->db->prepare("INSERT INTO " . $this->config['DB_DATABASE'] . ".users_ticket_created (user_id, user_mail, ticket_id, message, created_at) VALUES (:user_id, :user_email, :ticket_id, :message, NOW())");
+        $ticket_id = $this->generateRandomString(10);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':user_email', $user_email);
+        $stmt->bindParam(':ticket_id', $ticket_id);
+        $stmt->bindParam(':message', $message);
+        $stmt->execute();
+        return [true, $ticket_id];
+    }
+
+    public function getAllUsersTickets(){
+        $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_ticket_created ORDER BY created_at DESC");
         $stmt->execute();
         // Check if user exists in users
         if($stmt->rowCount() == 0) return false;
@@ -310,10 +349,88 @@ class Database {
 
     public function getPlans(){
         try {
-            $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".plans INNER JOIN " . $this->config['DB_DATABASE'] . ".plans_billing ON plans.name = plans_billing.name");
+            $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".plans INNER JOIN " . $this->config['DB_DATABASE'] . ".plans_billing ON " . $this->config['DB_DATABASE'] . ".plans.name = " . $this->config['DB_DATABASE'] . ".plans_billing.name");
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+            // delete duplicated names
+
+            $result = array_map("unserialize", array_unique(array_map("serialize", $result)));
+
             return $result;
+        } catch(PDOException $e){
+            return false;
+        }
+    }
+
+    public function getPlan($server_id){
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".plans INNER JOIN " . $this->config['DB_DATABASE'] . ".plans_billing ON " . $this->config['DB_DATABASE'] . ".plans.name = " . $this->config['DB_DATABASE'] . ".plans_billing.name WHERE " . $this->config['DB_DATABASE'] . ".plans.id = :server_id");
+            $stmt->bindParam(':server_id', $server_id);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        } catch(PDOException $e){
+            return false;
+        }
+    }
+
+    public function getPlanByName($name){
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".plans INNER JOIN " . $this->config['DB_DATABASE'] . ".plans_billing ON " . $this->config['DB_DATABASE'] . ".plans.name = " . $this->config['DB_DATABASE'] . ".plans_billing.name WHERE " . $this->config['DB_DATABASE'] . ".plans.name = :name");
+            $stmt->bindParam(':name', $name);
+            $stmt->execute();
+            // Fetch 1 row
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        } catch(PDOException $e){
+            return false;
+        }
+    }
+
+    public function createUserServer($user_id, $server_id){ // server_id = plan_id
+        try {
+            $plan = $this->getPlan($server_id);
+            $stmt = $this->db->prepare("INSERT INTO " . $this->config['DB_DATABASE'] . ".users_servers (user_id, server_id, plan_name, hostname, root_password, created_at, end_at) VALUES (:user_id, :server_id, :plan_name, :hostname, :root_password, NOW(), DATE_ADD(NOW(), INTERVAL 1 MONTH))");
+            $hostname = $plan['name']."-".$user_id;
+            $stmt->bindParam(':user_id', $user_id);
+            $stmt->bindParam(':server_id', $server_id);
+            $stmt->bindParam(':plan_name', $plan['name']);
+            $stmt->bindParam(':hostname', $hostname);
+            $stmt->bindParam(':root_password', $this->generateRandomString(10));
+            $stmt->execute();
+            return true;
+        } catch(PDOException $e){
+            return false;
+        }
+    }
+
+    public function getServer($server_id){
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_servers WHERE server_id = :server_id");
+            $stmt->bindParam(':server_id', $server_id);
+            $stmt->execute();
+            if($stmt->rowCount() > 0){
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $result;
+            }
+            return false;
+        } catch(PDOException $e){
+            return false;
+        }
+    }
+
+    public function userServerCheck($user_id, $server_id){
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM " . $this->config['DB_DATABASE'] . ".users_servers WHERE user_id = :user_id AND server_id = :server_id");
+            $stmt->bindParam(':user_id', $user_id);
+            $stmt->bindParam(':server_id', $server_id);
+            $stmt->execute();
+            if($stmt->rowCount() > 0){
+                return true;
+            } 
+            return false;
         } catch(PDOException $e){
             return false;
         }

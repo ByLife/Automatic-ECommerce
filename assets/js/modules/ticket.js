@@ -1,4 +1,4 @@
-var URL_FETCH = "./modules/user_ticket.php";
+var URL_FETCH = "./api/client/ticket";
 
 request = (data) => {
     return fetch(URL_FETCH, {
@@ -28,6 +28,7 @@ Main = async () => {
             document.querySelector(".textarea-cursa-ticket-subject").value = "";
             request({
                 action: "create_ticket",
+                token: getCookie("token"),
                 subject: ticket_subject,
             }).then(response => {
                 response.json().then(data => {

@@ -42,12 +42,12 @@
                             </div><!-- .nk-header-brand -->
                             <div class="nk-header-news d-none d-xl-block">
                                 <div class="nk-news-list">
-                                    <a class="nk-news-item" href="#">
+                                    <a class="nk-news-item" href="./client/order">
                                         <div class="nk-news-icon">
                                             <em class="icon ni ni-card-view"></em>
                                         </div>
                                         <div class="nk-news-text">
-                                            <p>Do you know the latest update of 2022? <span> A overview of our is now available on YouTube</span></p>
+                                            <p>Crazy promotions ! <span> What a lucky day ?!</span></p>
                                             <em class="icon ni ni-external"></em>
                                         </div>
                                     </a>
@@ -73,7 +73,7 @@
                                     <div class="nk-block-head">
                                         <div class="nk-block-between g-3">
                                             <div class="nk-block-head-content">
-                                                <h3 class="nk-block-title page-title">RDP</h3>
+                                                <h3 class="nk-block-title page-title">Order Page</h3>
                                                 <div class="nk-block-des text-soft">
                                                     <p>Choose your pricing plan and start enjoying our service.</p>
                                                 </div>
@@ -84,7 +84,7 @@
                                             <div class="nk-block-head">
                                                 <div class="nk-block-between g-3">
                                                     <div class="nk-block-head-content">
-                                                        <h3 class="nk-block-title page-title">NAME</h3>
+                                                        <h3 class="nk-block-title page-title"></h3>
                                                     </div>
                                                 </div>
                                             </div><!-- .nk-block-head -->
@@ -93,29 +93,27 @@
                                             <div class="card card-bordered pricing text-center">
                                                 <div class="pricing-body">
                                                     <div class="pricing-media">
-                                                        <img src="./images/icons/plan-s1.svg" alt="">
-                                                        IMG LINK
                                                     </div>
                                                     <div class="pricing-title w-220px mx-auto">
-                                                        <h5 class="title">VALEUR</h5>
-                                                        <span class="sub-text">DESCRIPTION</span>
+                                                        <h5 class="title"><?=$val['name'];?></h5>
+                                                        <span class="sub-text"><?=$val['description'];?></span>
                                                     </div>
                                                 
                                                     <div class="pricing-amount">
-                                                        <div class="amount">PRIX 69 <span>€</span></div>
+                                                        <div class="amount"><?= $val['price']; ?><span>€</span></div>
                                                         <span class="bill">Billed Monthly</span>
                                                     </div>
                                                     <div class="pricing-action">
                                                         <!-- Modal Trigger Code -->
-                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1">Select Plan</button>
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal<?= $val['id']; ?>">Select Plan</button>
                                                         
                                                         <!-- Modal Content Code -->
-                                                        <div class="modal fade" tabindex="-1" id="modal1">
+                                                        <div class="modal fade" tabindex="-1" id="modal<?= $val['id']; ?>">
                                                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                                 <div class="modal-content">
                                                                     <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
                                                                     <div class="modal-body modal-body-lg">
-                                                                        <h5 class="title">Payment Protocole</h5>
+                                                                        <h5 class="title"><?= $val['name'];?> - <?= $val['price']; ?>€</h5>
                                                                         <ul class="nk-nav nav nav-tabs">
                                                                             <li class="nav-item">
                                                                                 <a class="nav-link active" data-bs-toggle="tab" href="#personal">Payment</a>
@@ -124,34 +122,35 @@
                                                                         <div class="tab-content">
                                                                             <div class="tab-pane active" id="personal">
                                                                                 <div class="row gy-4">
+                                                                                <div class="alert-container"></div>
                                                                                     <div class="col-md-6">
                                                                                         <div class="form-group">
                                                                                             <label class="form-label" for="full-name">Full Name</label>
-                                                                                            <input type="text"  name="fullname" class="form-control form-control-lg" id="full-name" value="<?= $user['fullname']; ?>" placeholder="Enter Full name">
+                                                                                            <input type="text"  name="fullname" class="form-control form-control-lg srv-fullname-<?= $val['id']; ?>" id="full-name" value="<?= $user['fullname']; ?>" placeholder="Enter Full name">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="col-md-6">
                                                                                         <div class="form-group">
                                                                                             <label class="form-label" for="display-name">Card Number</label>
-                                                                                            <input type="text" name="displayname" class="form-control form-control-lg cr_no" id="display-name" placeholder="0000 0000 0000 0000" size="18" minlength="18" maxlength="18">
+                                                                                            <input type="text" name="displayname" class="form-control form-control-lg cr_no src-card-num-<?= $val['id']; ?>" id="display-name" placeholder="0000 0000 0000 0000" size="19" minlength="19" maxlength="19">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="col-md-6">
                                                                                         <div class="form-group">
                                                                                             <label class="form-label" for="phone-no">CVV/CVC</label>
-                                                                                            <input type="text" name="number" class="form-control form-control-lg" id="phone-no" placeholder="000" minlength="3" maxlength="3">
+                                                                                            <input type="text" name="number" class="form-control form-control-lg srv-cvv-<?= $val['id']; ?>" id="phone-no" placeholder="000" minlength="3" maxlength="3">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="col-md-6">
                                                                                         <div class="form-group">
                                                                                             <label class="form-label" for="birth-day">Expiry Date</label>
-                                                                                            <input type="text" name="birthdate" placeholder="MM/YY" class="form-control form-control-lg exp" id="birth-day" placeholder="Enter your birth date" minlength="5" maxlength="5">
+                                                                                            <input type="text" name="birthdate" placeholder="MM/YY" class="form-control form-control-lg exp src-card-exp-<?= $val['id']; ?>" id="birth-day" placeholder="Enter your birth date" minlength="5" maxlength="5">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="col-12">
                                                                                         <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
                                                                                             <li>
-                                                                                                <button type="submit" name="update_profile" class="btn btn-lg btn-primary btn-order" data-bs-toggle="tab" href="#personal">Confirm Payment</a>
+                                                                                                <button type="submit" name="update_profile" class="btn btn-lg btn-primary btn-order" value="<?= $val['id']; ?>">Confirm Payment</a>
                                                                                             </li>
                                                                                             <li>
                                                                                                 <a href="#" data-bs-dismiss="modal" class="link link-light">Cancel</a>
@@ -198,6 +197,7 @@
     <script src="./assets/js/bundle.js?ver=3.0.3"></script>
     <script src="./assets/js/scripts.js?ver=3.0.3"></script>
     <script src="./assets/js/card.js"></script>
+    <script src="./assets/js/modules/cookies.js"></script>
     <script src="./assets/js/modules/order.js"></script>
 </body>
 

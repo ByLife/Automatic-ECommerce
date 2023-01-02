@@ -54,10 +54,11 @@
                             <span class="nk-menu-text">Services</span>
                         </a>
                         <ul class="nk-menu-sub">
-
+                            <?php if($servers !== false) foreach($servers as $val){ ?>
                             <li class="nk-menu-item">
-                                <a href="./client/server/id" class="nk-menu-link"><span class="nk-menu-text">Server #zfazfafz</span></a>
+                                <a href="./client/server/<?= $val['server_id']; ?>" class="nk-menu-link"><span class="nk-menu-text">Server #<?= $val['server_id']; ?></span></a>
                             </li>
+                            <?php } ?>
                         </ul><!-- .nk-menu-sub -->
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-heading">
@@ -72,9 +73,11 @@
                             <li class="nk-menu-item">
                                 <a href="./client/ticket" class="nk-menu-link"><span class="nk-menu-text">Open a new ticket</span></a>
                             </li>
+                            <?php if($tickets !== false) foreach($tickets as $val){ ?>
                             <li class="nk-menu-item">
-                                <a href="./client/ticket/zfazfzf" class="nk-menu-link"><span class="nk-menu-text">Ticket #zafzfaazf ?></span></a>
+                                <a href="./client/ticket/<?= $val['ticket_id']; ?>" class="nk-menu-link"><span class="nk-menu-text">Ticket #<?= $val['ticket_id']; ?></span></a>
                             </li>
+                            <?php } ?>
                         </ul><!-- .nk-menu-sub -->
                     </li>
 

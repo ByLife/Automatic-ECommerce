@@ -63,7 +63,7 @@ $router->get('/client/dashboard', function(){
     $user = DB->getUserByToken($_COOKIE['token']);
     if($user === false) header('Location: ./../login');
     $servers = DB->getUserServers($user['user_id']);
-    $tickets = DB->getUserTickets($user['user_id']);
+    $tickets = $user['rank'] == 0 ? DB->getUserTickets($user['user_id']) : DB->getAllUsersTickets();
     require_once 'views/client/dashboard.php';
 });
 
@@ -72,6 +72,8 @@ $router->get('/client/order', function(){
     $user = DB->getUserByToken($_COOKIE['token']);
     $plans = DB->getPlans();
     if($user === false) header('Location: ./../login');
+    $servers = DB->getUserServers($user['user_id']);
+    $tickets = $user['rank'] == 0 ? DB->getUserTickets($user['user_id']) : DB->getAllUsersTickets();
     require_once 'views/client/order.php';
 });
 
@@ -79,6 +81,8 @@ $router->get('/client/profile', function(){
     if(!isset($_COOKIE['token'])) header('Location: ./../login');
     $user = DB->getUserByToken($_COOKIE['token']);
     if($user === false) header('Location: ./../login');
+    $servers = DB->getUserServers($user['user_id']);
+    $tickets = $user['rank'] == 0 ? DB->getUserTickets($user['user_id']) : DB->getAllUsersTickets();
     require_once 'views/client/profile.php';
 });
 
@@ -87,6 +91,8 @@ $router->get('client/activity', function(){
     $user = DB->getUserByToken($_COOKIE['token']);
     if($user === false) header('Location: ./../login');
     $logs = DB->getUserLogs($user['user_id']);
+    $servers = DB->getUserServers($user['user_id']);
+    $tickets = $user['rank'] == 0 ? DB->getUserTickets($user['user_id']) : DB->getAllUsersTickets();
     require_once 'views/client/activity.php';
 });
 
@@ -94,7 +100,35 @@ $router->get('client/server/:id', function($id){
     if(!isset($_COOKIE['token'])) header('Location: ./../login');
     $user = DB->getUserByToken($_COOKIE['token']);
     if($user === false) header('Location: ./../login');
+    $servers = DB->getUserServers($user['user_id']);
+    $tickets = $user['rank'] == 0 ? DB->getUserTickets($user['user_id']) : DB->getAllUsersTickets();
+    if($user['rank'] == 0){
+        if(!DB->userServerCheck($user['user_id'], $id)) header('Location: ./../dashboard');
+    } else {
+        if(DB->getServer($id) == false) header('Location: ./../dashboard');
+    }
+    $server = DB->getServer($id);
+    $plan = DB->getPlanByName(DB->getServer($id)['plan_name']);
     require_once 'views/client/pannel.php';
+});
+
+$router->get('client/ticket', function(){
+    if(!isset($_COOKIE['token'])) header('Location: ./../login');
+    $user = DB->getUserByToken($_COOKIE['token']);
+    if($user === false) header('Location: ./../login');
+    $servers = DB->getUserServers($user['user_id']);
+    $tickets = $user['rank'] == 0 ? DB->getUserTickets($user['user_id']) : DB->getAllUsersTickets();
+    require_once 'views/client/ticket.php';
+});
+
+$router->get('client/ticket/:id', function($id){
+    if(!isset($_COOKIE['token'])) header('Location: ./../login');
+    $user = DB->getUserByToken($_COOKIE['token']);
+    if($user === false) header('Location: ./../login');
+    $servers = DB->getUserServers($user['user_id']);
+    $tickets = $user['rank'] == 0 ? DB->getUserTickets($user['user_id']) : DB->getAllUsersTickets();
+    if($tickets == false) header('Location: ./../ticket');
+    require_once 'views/client/ticket.php';
 });
 
 // !- ADMIN ROUTES -!
@@ -107,6 +141,8 @@ $router->get('admin/users', function(){
     $tickets = DB->getAllTickets();
     $servers = DB->getAllServers();
     $users = DB->getAllUsers();
+    $servers = DB->getUserServers($user['user_id']);
+    $tickets = $user['rank'] == 0 ? DB->getUserTickets($user['user_id']) : DB->getAllUsersTickets();
     require_once 'views/admin/users.php';
 });
 
@@ -117,6 +153,8 @@ $router->get('admin/services', function(){
     if($user['rank'] == 0) header('Location: ./../login');
     $tickets = DB->getAllTickets();
     $servers = DB->getAllServers();
+    $servers = DB->getUserServers($user['user_id']);
+    $tickets = $user['rank'] == 0 ? DB->getUserTickets($user['user_id']) : DB->getAllUsersTickets();
     require_once 'views/admin/services.php';
 });
 
@@ -151,6 +189,18 @@ $router->post('/api/client/register', function(){
 
 $router->post('/api/client/reset', function(){
     require_once 'api/client/reset.php';
+});
+
+//& ORDER ROUTES
+
+$router->post('/api/client/order', function(){
+    require_once 'api/client/order.php';
+});
+
+//& TICKET ROUTES
+
+$router->post('/api/client/ticket', function(){
+    require_once 'api/client/ticket.php';
 });
 
 //& ALL ADMIN ROUTES
