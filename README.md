@@ -13,7 +13,7 @@
 ## Introduction
 
 
-Project for school using PHP & Javascript with HTML5 + CSS3. 
+Project using PHP & Javascript with HTML5 + CSS3. 
 This project consist of a website for a business that sell VPS servers, the project is named Cursa.
 
 Everything has been made from scratch, the website is not using any framework or CMS.
