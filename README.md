@@ -17,7 +17,9 @@ Project using PHP & Javascript with HTML5 + CSS3.
 This project consist of a website for a business that sell VPS servers, the project is named Cursa.
 
 Everything has been made from scratch, the website is not using any framework or CMS.
-Made it in 24 hours (personnal challenge). Got a 20/20 for this project, we had normally 1 month to do it.
+
+Made it for school and personnal usage n 24 hours (personnal challenge):
+Got a 20/20 for this project, we had normally 1 month to do it.
 
 ## Installation
 
